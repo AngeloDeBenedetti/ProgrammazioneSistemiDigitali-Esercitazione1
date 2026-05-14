@@ -145,11 +145,11 @@ float Rhombus::GetSide()
 
 /// @brief for debugging: all infos about the object
 void Rhombus::Dump()
-{
+{   
+    Shape::Dump();
+    
+    cout << endl <<  "----------------------" << endl;
     cout << "Rhombus Dump:" << endl;
-    cout << "  Bounding box position: (" << x << ", " << y << ")" << endl;
-    cout << "  Bounding box width:    " << width << endl;
-    cout << "  Bounding box height:   " << height << endl;
     cout << "  Horizontal diagonal:   " << GetHDiagonal() << endl;
     cout << "  Vertical diagonal:     " << GetVDiagonal() << endl;
     cout << "  Figure area:           " << GetArea() << endl;

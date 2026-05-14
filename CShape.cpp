@@ -349,6 +349,7 @@ void Shape::WarningMessage(const char *string)
 /// @brief for debugging: all infos about the object
 void Shape::Dump()
 {
+    cout << endl <<  "----------------------" << endl;
     std::cout << "Shape Dump:" << std::endl;
     std::cout << "  Position: (" << x << ", " << y << ")" << std::endl;
     std::cout << "  Width:  " << width << std::endl;

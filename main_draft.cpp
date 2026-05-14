@@ -35,8 +35,13 @@ int main()
     }
 
     
+    //4. Distruttore 
+    cout << endl << "===== DISTRUZIONE SHAPE DA ARRAY =====" << endl;
 
-    cout << endl << "===== FINE TEST =====" << endl;
-
+    for (int i = 0; i < nShapes; i++) {
+        cout << endl << "Figura [" << i << "]" << endl;
+        shapes[i]->~Shape();
+    }
+    
     return 0;
 }
