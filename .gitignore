@@ -1,0 +1,6 @@
+compiler/
+*_td*
+*.exe
+html/
+latex/
+*.gch
