@@ -1,6 +1,6 @@
 /*! \file CRhombus.h
     \brief Declaration of the class Rhombus
-    \author Paolo Gastaldo
+    \author Angelo De Benedetti
 */
 
 #ifndef RHOMBUS_H

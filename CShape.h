@@ -1,6 +1,6 @@
 /*! \file CShape.h
     \brief Declaration of the base class Shape
-	\author Paolo Gastaldo
+	\author Angelo De Benedetti
 */
 
 #ifndef SHAPE_H

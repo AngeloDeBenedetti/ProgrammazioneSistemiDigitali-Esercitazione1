@@ -1,6 +1,6 @@
 /*! \file CRhombus.cpp
     \brief implementation of class Rhombus
-    \author Paolo Gastaldo
+    \author Angelo De Benedetti
 */
 
 #include "CRhombus.h"

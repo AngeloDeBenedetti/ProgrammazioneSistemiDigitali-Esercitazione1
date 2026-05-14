@@ -1,6 +1,6 @@
 /*! \file CRectangle.cpp
     \brief implementation of class Rectangle
-    \author Paolo Gastaldo
+    \author Angelo De Benedetti
 */
 
 #include "CRectangle.h"
