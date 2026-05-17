@@ -109,21 +109,16 @@ float IsoscelesTriangle::GetPerimeter()
 
 float GetBase()
 {
-    return GetWidht(); 
+    return Shape::GetWidth(); 
 }
 
 /// @brief computes the side of the IsoscelesTriangle
 /// @return side
 float IsoscelesTriangle::GetSide()
 {
-    float b, h, side;
-    b = GetBase();
-    h = GetHeight();
+    float b = GetBase(), h = GetHeight();
 
-    side = sqrt((d1 / 2.0) * (d1 / 2.0) +
-                (d2 / 2.0) * (d2 / 2.0));
-	
-	return side;
+    return sqrt((b/2)*(b/2) + h*h);
 }
 
 /* ----------------------------
