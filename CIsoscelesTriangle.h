@@ -41,7 +41,7 @@ public:
     float GetArea();
     float GetPerimeter();
     float GetBase();
-	float GetSide();
+    float GetSide();
     /// @}
 
     /// @name DEBUG and SERIALIZATION
