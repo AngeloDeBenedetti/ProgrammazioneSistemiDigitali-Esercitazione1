@@ -118,6 +118,7 @@ float IsoscelesTriangle::GetBase()
 ///@brief returns side of Isosceles Triangle
 /// @return side
 float IsoscelesTriangle::GetSide()
+{
     float b = GetBase(), h = GetHeight();
 
     return sqrt((b/2)*(b/2) + h*h);
