@@ -37,8 +37,30 @@ int main()
         shapes[i]->Dump();
     }
 
+    //4.Scala
+    cout << endl << "===== MODIFICA DI SCALA =====" << endl;
+
+    cout << endl << "=SCALA X3 =" << endl;
+    for (int i = 0; i < nShapes; i++) {
+        shapes[i]->Scale(3.0);
+        cout << endl << "Figura [" << i << "]" << endl;
+        shapes[i]->Dump();}
     
-    //4. Distruttore 
+    cout << endl << "=SCALA NEGATIVA =" << endl;
+    for (int i = 0; i < nShapes; i++) {
+        shapes[i]->Scale(-1);
+        cout << endl << "Figura [" << i << "]" << endl;
+        shapes[i]->Dump();}
+    
+    cout << endl << "=SCALA x0.5 =" << endl;
+    for (int i = 0; i < nShapes; i++) {
+        shapes[i]->Scale(0.5);
+        cout << endl << "Figura [" << i << "]" << endl;
+        shapes[i]->Dump();}
+
+
+    
+    //5. Distruttore 
     cout << endl << "===== DISTRUZIONE SHAPE DA ARRAY =====" << endl;
 
     for (int i = 0; i < nShapes; i++) {

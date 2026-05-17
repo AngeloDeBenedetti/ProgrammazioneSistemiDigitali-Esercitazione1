@@ -177,19 +177,19 @@ void Shape::Reset()
    FORMATTING
    ---------------------------- */
 
-/// @brief to rescale the shape without changing the aspect ratio
+/// @brief to rescale the shape without changing the aspect ratio. IT DOES NOT REMEBER PREVIOUS VALUE
 /// @param sf scale factor (1.0 = 100%, no changes)
    
 void Shape::Scale(float sf) 
 {
 	if (sf < 0.) {
-		WarningMessage("Scale: the new scale cannot be a negative value; set to 1")}
+		WarningMessage("Scale: the new scale cannot be a negative value; set to 1");}
     else
     {
-        this->x = x*sf;
-        this->y = y*sf;
+        
         this->height = height*sf;
         this->width = width *sf;
+        return;
     }
 }
 
