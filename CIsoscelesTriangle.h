@@ -8,9 +8,9 @@
 
 #include "CShape.h"
 
-/// @class Isosceles Triangle
+/// @class IsoscelesTriangle
 /// @brief to manage an object with the shape of an Isosceles Triangle
-class Triangle : public Shape
+class IsoscelesTriangle : public Shape
 {
 public:
 
