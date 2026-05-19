@@ -139,3 +139,10 @@ void Rectangle::Dump()
     cout << "  Text:                " << (text ? text : "(null)") << endl;
 	cout << endl;
 }
+
+void Rectangle::Info()
+{
+    cout << "Rectangle:" << endl;
+    Shape::info();
+    cout << "  Text:                  " << (text ? text : "(null)") << endl;
+}
