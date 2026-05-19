@@ -188,15 +188,18 @@ void Shape::Reset()
 void Shape::Scale(float sf) 
 {
 	float temp_h = height;
-    float temp_w = width
-    if (sf < 0.) {
-		WarningMessage("Scale: the new scale cannot be a negative value; set to 1"); return;}
-        else
+    float temp_w = width;
+    if (sf < 0.) 
+    {
+		WarningMessage("Scale: the new scale cannot be a negative value; set to 1"); 
+        return;
+    }
+        
     
         temp_h= temp_h*sf;
         temp_w = temp_w *sf;
     
-    if(MAX_X - (px + temp_w)< 0 || MAX_Y - (py + temp_h) < 0)
+    if(MAX_X - (x + temp_w)< 0 || MAX_Y - (y + temp_h) < 0)
     {
         WarningMessage("Scale: the new scale is too big to fit in the grid; operation canceled");
         return; 
@@ -220,7 +223,7 @@ void Shape::SetPosition(float px, float py)
 		x = 0.0;
 	}		
 	else 
-	if((MAX_X - (px + widht)) < 0)	
+	if((MAX_X - (px + width)) < 0)	
     {
         WarningMessage("SetPosition(x): the shape is partially out of the grid; clamped to 0");
         x = 0.0;
@@ -233,7 +236,7 @@ void Shape::SetPosition(float px, float py)
 		y = 0.0;
 	}
     else	
-    if((MAX_POSITIVE - (py + height)) < 0)	
+    if((MAX_Y - (py + height)) < 0)	
     {
         WarningMessage("SetPosition(y): the shape is partially out of the grid; clamped to 0");
         y = 0.0;
@@ -254,7 +257,7 @@ void Shape::SetHeight(float h)
     else if (h > MAX_Y)
     {
         WarningMessage("SetHeight: value too big, clamped to 0");
-        w = 0.0;
+        h = 0.0;
     }
     else
     height = h;

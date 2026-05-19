@@ -14,16 +14,16 @@ using namespace std;
 #define MAX_X 100.0
 #define MAX_Y 100.0
 
-void ShowAllPolygons(Shape* shapes[]);
-void ModifyPolygon(Shape* shapes[]);
-void MovePolygon(Shapes* shapes[]);
-void DeletePolygon(Shape* shapes[]);
-void CreatePolygon (Shape* shapes[]);
-void DeleteAllPoly (Shape* shapes[]);
+void ShowAllPolygons(Shape* shapes[], int* nShape);
+void ModifyPolygon(Shape* shapes[], int* nShape);
+void MovePolygon(Shape* shapes[], int* nShape);
+void DeletePolygon(Shape* shapes[], int* nShape);
+void CreatePolygon (Shape* shapes[], int* nShape);
+void DeleteAllPoly (Shape* shapes[], int* nShape);
 
 int main()
 {
-    Shape* shapes[MAX_SHAPES]; //array di puntatori a shape//
+    Shape* shapes[MAX_SHAPES] = {NULL}; //array di puntatori a shape//
     int nShapes = 0;
     int opt = 0;
     while(true)
@@ -41,27 +41,27 @@ int main()
 
         if (opt == -1)
         {
-            return;
+            return 0;
         }
 
         switch(opt){
             case 1:
-            ShowAllPolygons(shapes);
+            ShowAllPolygons(shapes, &nShapes);
             break;
             case 2:
-            ModifyPolygon(shapes);
+            ModifyPolygon(shapes, &nShapes);
             break;
             case 3:
-            MovePolygon(shapes);
+            MovePolygon(shapes, &nShapes);
             break;
             case 4:
-            CreatePolygon(shapes);
+            CreatePolygon(shapes, &nShapes);
             break;
             case 5:
-            DeletePolygon(shapes);
+            DeletePolygon(shapes, &nShapes);
             break;
             case 6:
-            DeleteAllPoly (shapes);
+            DeleteAllPoly (shapes, &nShapes);
             break;
             default:
             cout <<"The selection isn't valid. Please enter a valid selection" << endl;
@@ -72,17 +72,23 @@ int main()
 
 }
 
-void ShowAllPolygons(Shape* shapes[])
+void ShowAllPolygons(Shape* shapes[], int* nShape)
 {
-    for (int i = 0; i < nShapes; i++) {
+    int nShapes = (*nShape);
+    for(int i = 0; i < MAX_SHAPES; i++)
+    {
+    if(shapes[i] != NULL)
+        {
         cout << endl << "Polygon [" << i << "]" << endl;
-        shapes[i]->info();}
+        shapes[i]->Info();
+        }
+    }
 }
-
-void ModifyPolygon(Shape* shapes[])
+void ModifyPolygon(Shape* shapes[], int* nShape)
 {
     while(true)
     {    
+        int nShapes = (*nShape);
         int sel = 0;
         float nh = 0;
         float nw = 0;
@@ -92,7 +98,7 @@ void ModifyPolygon(Shape* shapes[])
         {
             return;
         }
-        else if (sel < 0 || sel >= nShapes)
+        else if (sel < 0 || sel >= MAX_SHAPES || shapes[sel] == NULL)
         {
             cout << "The selection isn't valid. Please enter a valid selection"<< endl;
             continue;
@@ -108,10 +114,11 @@ void ModifyPolygon(Shape* shapes[])
     }
 }
 
-void MovePolygon(Shapes* shapes[])
+void MovePolygon(Shape* shapes[], int* nShape)
 {
     while(true)
     {    
+        int nShapes = (*nShape);
         int sel = 0;
         float nx = 0;
         float ny = 0;
@@ -121,7 +128,7 @@ void MovePolygon(Shapes* shapes[])
         {
             return;
         }
-        else if (sel < 0 || sel >= nShapes)
+        else if (sel < 0 || sel >= MAX_SHAPES || shapes[sel]== NULL)
         {
             cout << "The selection isn't valid. Please enter a valid selection"<< endl;
             continue;
@@ -136,10 +143,11 @@ void MovePolygon(Shapes* shapes[])
     }
 }
 
-void DeletePolygon(Shape* shapes[])
+void DeletePolygon(Shape* shapes[], int* nShape)
 {
 while(true)
     {    
+        int nShapes = (*nShape);
         int sel = 0;
         int ok = 0;
         cout <<"Please enter the Polygon's number or -1 to go back" << endl;
@@ -148,7 +156,7 @@ while(true)
         {
             return;
         }
-        else if (sel < 0 || sel >= nShapes)
+        else if (sel < 0 || sel >= MAX_SHAPES)
         {
             cout << "The selection isn't valid. Please enter a valid selection"<< endl;
             sel = 0;
@@ -158,21 +166,23 @@ while(true)
         {
             if(shapes[sel] == NULL)
             {
-                cout <<"the polygon does not exist"<< endl
+                cout <<"the polygon does not exist"<< endl;
                 continue;
             }
             
             cout << "Selected object:" << endl;
-            shapes[sel]->info();
-            cout <<"Enter 1 to confirm or -1 to cancel"
+            shapes[sel]->Info();
+            cout <<"Enter 1 to confirm or -1 to cancel"<< endl;
             cin >> ok;
             switch(ok){
-            case 1;
-            shapes[sel]->~Shape();
-            break;
+            case 1:
+            delete shapes[sel];
+            shapes[sel] = NULL;
+            (*nShape)--;
+            return;
             case -1:
             continue;
-            break
+            break;
             default:
             ok = 0;
             }
@@ -180,24 +190,29 @@ while(true)
     }
 }
 
-void CreatePolygon (Shape* shapes[])
+void CreatePolygon (Shape* shapes[], int* nShape)
     {
-        float x,y,w,h = 0; int sel = 0;
+        if (*nShape == (MAX_SHAPES - 1))
+        {
+            cout << "No more space available." << endl;
+            return;
+        }
+        float x= 0.0,y=0.0,w=0.0,h = 0.0; int sel = 0;
         for(int i=0; i < MAX_SHAPES; i++)
         {
             if(shapes[i] == NULL)
             {
                 cout <<"Please select the type of object to be created:"<< endl <<"1- Rectangle" << endl << "2- Rhombus"<< endl << "3- Isosceles Triangle"<< endl;
-                cin >> sel >> endl;
-                if(sel =! 1 || sel=! 2 || sel=! 3)
+                cin >> sel;
+                if(sel != 1 && sel!= 2 && sel!= 3)
                 {
                     cout <<"invalid selection."<< endl;
                     return;
                 }
                 cout <<"please enter new object's x and y position" << endl;
-                cin >> x >> y >> endl;
+                cin >> x >> y;
                 cout << "please enter new object's width and height" << endl;
-                cin >> w >> h >> endl; 
+                cin >> w >> h; 
                 switch (sel){
                     case 1:
                     shapes[i]= new Rectangle(x, y, w, h);
@@ -209,9 +224,11 @@ void CreatePolygon (Shape* shapes[])
                     shapes[i]= new IsoscelesTriangle(x, y, w, h);
                     break;
                     default:
-                    sel=0;
+                    break;
+                   
                 }
-                
+                (*nShape)++;
+                sel=0;
                 if(shapes[i]== NULL)
                 {
                     cout << "Error. The polygon was not created" << endl;
@@ -221,23 +238,27 @@ void CreatePolygon (Shape* shapes[])
         }
     }
 
-void DeleteAllPoly (Shape* shapes[])
-{
+void DeleteAllPoly (Shape* shapes[], int* nShape)
+{   
+    int nShapes = (*nShape);
     int ok = 0;
     cout <<"Are you sure you want to delete ALL polygons?" << endl << "1 -YES" << "-1 - NO" << endl;
-    cin >> ok >> endl;
-    if(ok =! 1 || ok =! -1)
+    cin >> ok;
+    if(ok != 1 && ok != -1)
     {
         cout << "invalid input."<< endl;
     }
     else if(ok == 1)
     {
-        for (int i = 0; i < nShapes; i++) 
+        for (int i = 0; i < MAX_SHAPES; i++) 
         {
         
-            if(shapes[i] =! NULL)
+            if(shapes[i] != NULL)
                 {cout << endl << "Figura [" << i << "]" << endl;
-                shapes[i]->~Shape();}
+                delete shapes[i];
+                shapes[i] = NULL;
+                (*nShape)--;
+            }
         }
     }
     else if( ok == -1)
