@@ -143,6 +143,6 @@ void IsoscelesTriangle::Dump()
 void IsoscelesTriangle::Info()
 {
     cout << "Isosceles Triangle:" << endl;
-    Shape::info();
+    Shape::Info();
     cout << "  Text:                  " << (text ? text : "(null)") << endl;
 }

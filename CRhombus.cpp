@@ -160,6 +160,6 @@ void Rhombus::Dump()
 void Rhombus::Info()
 {
     cout << "Rhombus:" << endl;
-    Shape::info();
+    Shape::Info();
     cout << "  Text:                  " << (text ? text : "(null)") << endl;
 }
