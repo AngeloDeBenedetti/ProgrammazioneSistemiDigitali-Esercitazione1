@@ -139,3 +139,10 @@ void IsoscelesTriangle::Dump()
     cout << "  Figure perimeter:      " << GetPerimeter() << endl;
     cout << "  Text:                  " << (text ? text : "(null)") << endl;
 }
+
+void IsoscelesTriangle::Info()
+{
+    cout << "Isosceles Triangle:" << endl;
+    Shape::info();
+    cout << "  Text:                  " << (text ? text : "(null)") << endl;
+}
