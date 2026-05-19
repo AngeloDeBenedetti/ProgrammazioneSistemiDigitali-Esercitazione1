@@ -90,6 +90,7 @@ public:
     void ErrorMessage(const char *string);
     void WarningMessage(const char *string);
     virtual void Dump();
+    virtual void Info();
     /// @}
 
 };

@@ -7,7 +7,10 @@
 #include<iostream>
 #include<cstring>    
 #include<new>        
-#include<cmath>      
+#include<cmath>   
+
+#define MAX_X 100.0
+#define MAX_Y 100.0
 
 using namespace std;
 
@@ -36,7 +39,7 @@ Shape::Shape()
 }
 
 /// @brief constructor 
-/// @param px position in the grid (x)
+/// @param px position in the grid (x) 
 /// @param py position in the grid (y)
 /// @param w width of the bounding box
 /// @param h height of the bounding box
@@ -47,10 +50,12 @@ Shape::Shape(float px, float py, float w, float h)
 	text = nullptr;
     Init();
 	
-	SetPosition(px,py);
-	
-    SetWidth(w);
+    SetWidth(w); //for the controls in SetPosition to work, i need to know the widht and height//
     SetHeight(h);
+	
+    SetPosition(px,py);
+	
+   
 }
 
 /// @brief copy constructor
@@ -182,37 +187,57 @@ void Shape::Reset()
    
 void Shape::Scale(float sf) 
 {
-	if (sf < 0.) {
-		WarningMessage("Scale: the new scale cannot be a negative value; set to 1");}
-    else
+	float temp_h = height;
+    float temp_w = width
+    if (sf < 0.) {
+		WarningMessage("Scale: the new scale cannot be a negative value; set to 1"); return;}
+        else
+    
+        temp_h= temp_h*sf;
+        temp_w = temp_w *sf;
+    
+    if(MAX_X - (px + temp_w)< 0 || MAX_Y - (py + temp_h) < 0)
     {
-        
-        this->height = height*sf;
-        this->width = width *sf;
-        return;
+        WarningMessage("Scale: the new scale is too big to fit in the grid; operation canceled");
+        return; 
     }
+    else
+    width = temp_h;
+    height = temp_w;
 }
 
 /* ----------------------------
    GETTERS / SETTERS
    ---------------------------- */
 
-/// @brief set position of the object
+/// @brief set position of the object, with controls to prevent setting an object outside of the grid
 /// @param px position on x
 /// @param py position on y
 void Shape::SetPosition(float px, float py)
 {
-	if (px < 0.) {
-		WarningMessage("SetPosition: the position in the grid cannot be a negative value; clamped to 0");
-		x = 0;
+	if (px  >MAX_X) {
+		WarningMessage("SetPosition: the X position is outside of the grid; clamped to 0");
+		x = 0.0;
 	}		
 	else 
-		x = px;
-	
-	if (py < 0.) {
-		WarningMessage("SetPosition: the position in the grid cannot be a negative value; clamped to 0");
-		y = 0;
-	}		
+	if((MAX_X - (px + widht)) < 0)	
+    {
+        WarningMessage("SetPosition(x): the shape is partially out of the grid; clamped to 0");
+        x = 0.0;
+    }
+    else
+        x = px;
+    
+	if (py > MAX_Y) {
+		WarningMessage("SetPosition: the Y position is out of the grid; clamped to 0");
+		y = 0.0;
+	}
+    else	
+    if((MAX_POSITIVE - (py + height)) < 0)	
+    {
+        WarningMessage("SetPosition(y): the shape is partially out of the grid; clamped to 0");
+        y = 0.0;
+    }	
 	else 
 		y = py;
 
@@ -226,6 +251,12 @@ void Shape::SetHeight(float h)
         WarningMessage("SetHeight: negative value, clamped to 0");
         h = 0.0;
     }
+    else if (h > MAX_Y)
+    {
+        WarningMessage("SetHeight: value too big, clamped to 0");
+        w = 0.0;
+    }
+    else
     height = h;
 }
 
@@ -237,6 +268,13 @@ void Shape::SetWidth(float w)
         WarningMessage("SetWidth: negative value, clamped to 0");
         w = 0.0;
     }
+    else if (w > MAX_X)
+    {
+        WarningMessage("SetWidth: value too big, clamped to 0");
+        w = 0.0;
+    }
+    else
+    
     width = w;
 }
 
@@ -365,4 +403,12 @@ void Shape::Dump()
     std::cout << "  Bounding Box Area:   " << GetBoundingBoxArea() << std::endl;
  	
 	cout << endl;
+}
+
+///@brief for simpler and faster display of informations
+void Shape::Info()
+{
+    std::cout << "  Position: (" << x << ", " << y << ")" << std::endl;
+    std::cout << "  Width:  " << width << std::endl;
+    std::cout << "  Height: " << height << std::endl; //the other things will be displayed by the object
 }
