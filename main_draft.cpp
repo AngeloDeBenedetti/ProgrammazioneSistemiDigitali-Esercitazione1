@@ -8,7 +8,12 @@
 
 using namespace std;
 
-#define MAX_SHAPES 10
+#define MAX_SHAPES 10 //lascio questo vincolo, ma potrebbe essere modificato per gestire quante shape si desidera//
+#define MAX_X 100.0
+#define MAX_Y 100.0
+
+//QUESTO MAIN CONTIENE SOLO GLI ESERCIZI PER LA PRIMA PARTE DI ESERCITAZIONE. PER LA SECONDA PARTE USARE "main_grid"//
+
 
 int main()
 {
