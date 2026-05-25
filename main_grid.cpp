@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cstring>
 
 #include "CShape.h"
 #include "CRectangle.h"
@@ -37,7 +38,11 @@ int main()
         cout << endl << "6 - Delete ALL Polygons" << endl;
         cout << endl << "-1 - Close the program" << endl; //avrei anche potuto mettere la condizione nel while, ma in questo modo so che il programma viene terminato immediatamente
 
-        cin >> opt;
+        if (!(cin >> opt)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            opt = 0;
+        }
 
         if (opt == -1)
         {
@@ -92,8 +97,13 @@ void ModifyPolygon(Shape* shapes[], int* nShape)
         int sel = 0;
         float nh = 0;
         float nw = 0;
+        int txt = 0;
         cout <<"Please enter the Polygon's number or -1 to go back" << endl;
-        cin >> sel;
+        if (!(cin >> sel)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            sel = -2;
+        }
         if (sel == -1)
         {
             return;
@@ -105,10 +115,46 @@ void ModifyPolygon(Shape* shapes[], int* nShape)
         }
         else {
         cout << "please enter the new Polygon's height"<< endl;
-        cin >> nh;
+        if (!(cin >> nh)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout <<"Value unacceptable. clamped to 0" << endl;
+            nh = 0;
+        }
         shapes[sel]->SetHeight(nh);
         cout << "please enter the new Polygon's width"<< endl;
-        cin >> nw;
+        if (!(cin >> nw)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout <<"Value unacceptable. clamped to 0" << endl;
+            nw = 0;
+        }
+        int end = 0;
+        while (end != 1){
+        cout << "Do you also want to modify the text?" << endl << "1 - Yes" << endl << "-1 - No"<< endl;
+        if (!(cin >> txt)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            txt = 0;
+            }
+       
+            switch(txt){
+                case 1:
+                char string[TEXTSIZE];
+                cout << "Please type the new text:" << endl;
+                cin >> string;
+                end = 1;
+                shapes[sel]->SetText(string);
+                break;
+                case -1:
+                cout << "procedure completed" << endl;
+                end = 1;
+                break;
+                default:
+                cout << "Invalid selection" << endl;
+                break;
+            }
+        }
         shapes[sel]->SetWidth(nw);
         return;}
     }
@@ -123,7 +169,11 @@ void MovePolygon(Shape* shapes[], int* nShape)
         float nx = 0;
         float ny = 0;
         cout <<"Please enter the Polygon's number or -1 to go back" << endl;
-        cin >> sel;
+        if (!(cin >> sel)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            sel = -2;
+        }
         if (sel == -1)
         {
             return;
@@ -135,9 +185,19 @@ void MovePolygon(Shape* shapes[], int* nShape)
         }
         else {
         cout << "please enter the Polygon's new x position"<< endl;
-        cin >> nx;
+        if (!(cin >> nx)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout <<"Value unacceptable. clamped to 0" << endl;
+            nx = 0;
+        }
         cout << "please enter the Polygon's new y position"<< endl;
-        cin >> ny;
+        if (!(cin >> ny)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout <<"Value unacceptable. clamped to 0" << endl;
+            ny = 0;
+        }
         shapes[sel]->SetPosition(nx, ny);
         return;}
     }
@@ -151,7 +211,11 @@ while(true)
         int sel = 0;
         int ok = 0;
         cout <<"Please enter the Polygon's number or -1 to go back" << endl;
-        cin >> sel;
+        if (!(cin >> sel)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            sel = -2;
+        }
         if (sel == -1)
         {
             return;
@@ -173,18 +237,24 @@ while(true)
             cout << "Selected object:" << endl;
             shapes[sel]->Info();
             cout <<"Enter 1 to confirm or -1 to cancel"<< endl;
-            cin >> ok;
-            switch(ok){
-            case 1:
-            delete shapes[sel];
-            shapes[sel] = NULL;
-            (*nShape)--;
-            return;
-            case -1:
-            continue;
-            break;
-            default:
+            if (!(cin >> ok)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             ok = 0;
+        }
+            while(ok != -1)
+            {switch(ok){
+                case 1:
+                delete shapes[sel];
+                shapes[sel] = NULL;
+                (*nShape)--;
+                return;
+                case -1:
+                return;
+                break;
+                default:
+                cout <<"invalid choice"<<endl;
+                ok = 0;}
             }
         }
     }
@@ -203,16 +273,27 @@ void CreatePolygon (Shape* shapes[], int* nShape)
             if(shapes[i] == NULL)
             {
                 cout <<"Please select the type of object to be created:"<< endl <<"1- Rectangle" << endl << "2- Rhombus"<< endl << "3- Isosceles Triangle"<< endl;
-                cin >> sel;
+                if (!(cin >> sel)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                sel= 0;}
                 if(sel != 1 && sel!= 2 && sel!= 3)
                 {
                     cout <<"invalid selection."<< endl;
                     return;
                 }
                 cout <<"please enter new object's x and y position" << endl;
-                cin >> x >> y;
+                if (!(cin >> x >> y)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout <<"one or both values unacceptable. clamped to 0" << endl;
+                x = 0;y=0;}
                 cout << "please enter new object's width and height" << endl;
-                cin >> w >> h; 
+                if (!(cin >> w >> h)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout <<"one or both values unacceptable. clamped to 0" << endl;
+                w = 0; h = 0;}
                 switch (sel){
                     case 1:
                     shapes[i]= new Rectangle(x, y, w, h);
@@ -224,9 +305,9 @@ void CreatePolygon (Shape* shapes[], int* nShape)
                     shapes[i]= new IsoscelesTriangle(x, y, w, h);
                     break;
                     default:
-                    break;
-                   
-                }
+                    cout << "Error, invalid input in switch(sel)"<< endl;
+                    return;
+                    break;}
                 (*nShape)++;
                 sel=0;
                 if(shapes[i]== NULL)
@@ -237,13 +318,17 @@ void CreatePolygon (Shape* shapes[], int* nShape)
             }
         }
     }
+    
 
 void DeleteAllPoly (Shape* shapes[], int* nShape)
 {   
     int nShapes = (*nShape);
     int ok = 0;
-    cout <<"Are you sure you want to delete ALL polygons?" << endl << "1 -YES" << "-1 - NO" << endl;
-    cin >> ok;
+    cout <<"Are you sure you want to delete ALL polygons?" << endl << "1 -YES" << endl << "-1 - NO" << endl;
+    if (!(cin >> ok)) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        ok = 0;}
     if(ok != 1 && ok != -1)
     {
         cout << "invalid input."<< endl;
@@ -253,11 +338,12 @@ void DeleteAllPoly (Shape* shapes[], int* nShape)
         for (int i = 0; i < MAX_SHAPES; i++) 
         {
         
-            if(shapes[i] != NULL)
+            if(shapes[i] != NULL){
                 {cout << endl << "Figura [" << i << "]" << endl;
-                delete shapes[i];
-                shapes[i] = NULL;
-                (*nShape)--;
+                    delete shapes[i];
+                    shapes[i] = NULL;
+                    (*nShape)--;
+                }
             }
         }
     }
@@ -266,3 +352,4 @@ void DeleteAllPoly (Shape* shapes[], int* nShape)
         cout << "operation canceled" << endl;
     }
 }
+//g++ main_grid.cpp CShape.cpp CRhombus.cpp CRectangle.cpp CIsoscelesTriangle.cpp -o//
